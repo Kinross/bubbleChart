@@ -53,7 +53,7 @@
             #g {
                 background: #ffffe5;
                 width: 100%;
-				height:400pt;
+                height: 400pt;
             }
             
             body {
@@ -78,17 +78,15 @@
         </div>
     </body>
     <script>
-        var paper = Raphael(document.getElementById("g"), 0, 0);
-
+        var paper = Raphael(document.getElementById("g"), 0, 0) , centerText, centerBubble , bubbles =[] , texts = [];
         
-        var bigCX = 300;
-        var bigCY = 300;
-        var bigR = 200;
+        
+        var bigCX, bigCY, bigR;
         var dataPoint = 1;
         
         window.onresize = function(){
             setPaperSizes();
-            setUpBubbleChart(dataPoint);
+            upDateBubbleChart(dataPoint);
         }
         
         function setPaperSizes(){
@@ -113,85 +111,123 @@
         }
         
         // areas 
-        var data = [
-			[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-			[98, 1, 1, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-			[2, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-			[2, 1, 1, 1, 1, 4, 1, 0.4, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-			[6, 7, 8, 4, 6, 9, 3, 5, 7, 9, 6, 3, 4, 5, 6, 5, 3, 6, 8, 0, 0, 0, 0, 0, 0, 0],
-			[1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-			[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-			[70, 1, 1, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-			[4, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]
-		];
+        var data = [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [98, 1, 1, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [2, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [2, 1, 1, 1, 1, 4, 1, 0.4, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [6, 7, 8, 4, 6, 9, 3, 5, 7, 9, 6, 3, 4, 5, 6, 5, 3, 6, 8, 0, 0, 0, 0, 0, 0, 0], [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [70, 1, 1, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [4, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]];
         
         
-        function setUpBubbleChart(x){
+        function setUpBubbleChart(){
         
-            var total = 0, degrees = 0, radius, newR, radius_multiplier, i, number_of_bubbles_to_show = 0;
+            var total = 0, degrees = 0, radius, newR, radius_multiplier, i;
             
-            dataPoint = x;
             
-            paper.clear();
-            
-            paper.circle(bigCX, bigCY, bigR).attr({
+            centerBubble = paper.circle(bigCX, bigCY, bigR).attr({
                 "fill": "pink",
                 "fill-opacity": 0.3,
                 "stroke-width": 0
             });
             
-            ;
+            
+            centerText = paper.text(bigCX, bigCY, "");
+            
+            
+            for (i = 0; i < data[0].length; i++) {
+            
+                radius = 0;
+                                                                
+                var XY = calculate_a_point_on_a_circles_circumference(bigR, bigCX, bigCY, radius);
+                
+                bubbles.push(paper.circle(0, 0, radius).attr(calculate_a_point_on_a_circles_circumference(bigR, bigCX, bigCY, radius)));
+                texts.push(paper.text(XY.cx, XY.cy, ""));
+            
+			}
+        }
+        
+        function upDateBubbleChart(x){
+        
+            var total = 0, degrees = 0, radius, newR, radius_multiplier, i, number_of_bubbles_to_show = 0;
+            
+            dataPoint = x;
+            
+            //paper.clear();
+            
+            centerBubble.attr({
+                "cx": bigCX,
+                "cy": bigCY
+            });
+            
+            centerBubble.attr({
+				"cx": bigCX,
+				"cy": bigCY,
+				"r": bigR
+			});
+
+
             
             for (i = 0; i < data[dataPoint].length; i++) {
             
                 // radius = sqrt(area / PI)
                 total = total + Math.sqrt(data[dataPoint][i] / Math.PI)
-				
-				if(data[dataPoint][i] > 0){
-					number_of_bubbles_to_show++;
-				}
-				
+                
+                if (data[dataPoint][i] > 0) {
+                    number_of_bubbles_to_show++;
+                }
+                
             }
-            
+			
+            centerText.attr({"x":bigCX , "y": bigCY});
+                        
             if (total == 0) {
-                paper.text(bigCX, bigCY, "No data in " + $("span:eq(" + (dataPoint - 1) + ")").text());
+                centerText.attr("text", "No data in " + $("span:eq(" + (dataPoint - 1) + ")").text());
             }
             else {
-            
-                for (i = 0; i < data[dataPoint].length; i++) {
-                
-                    radius = Math.sqrt(data[dataPoint][i] / Math.PI);
-                    
-                    degrees = degrees + radius;
-                    
-                    newR = (360 / total) * (degrees - (radius / 2));
-                    
-                    radius_multiplier = (bigR * 2) / total;
-                    
-                    if (number_of_bubbles_to_show < 3) {
-                        radius_multiplier = bigR / total;
-                    }
-                    
-                    var XY = calculate_a_point_on_a_circles_circumference(bigR, bigCX, bigCY, newR);
-                    
-                    if (data[dataPoint][i] > 0) {
-                        paper.circle(0, 0, radius * radius_multiplier).attr(calculate_a_point_on_a_circles_circumference(bigR, bigCX, bigCY, newR));
-                        paper.text(XY.cx, XY.cy, data[dataPoint][i]);
-                    }
-                }
+                centerText.attr("text", "");
             }
+
+            
+            for (i = 0; i < data[dataPoint].length; i++) {
+            
+                radius = Math.sqrt(data[dataPoint][i] / Math.PI);
+                
+                degrees = degrees + radius;
+                
+                newR = (360 / total) * (degrees - (radius / 2));
+                
+                radius_multiplier = (bigR * 2) / total;
+                
+                if (number_of_bubbles_to_show < 3) {
+                    radius_multiplier = bigR / total;
+                }
+                
+                var XY = calculate_a_point_on_a_circles_circumference(bigR, bigCX, bigCY, newR);
+                
+                if (data[dataPoint][i] > 0) {
+                    bubbles[i].attr({
+						"cx": 0,
+						"cy": 0,
+						"r": radius * radius_multiplier
+					}).attr(calculate_a_point_on_a_circles_circumference(bigR, bigCX, bigCY, newR));
+                   texts[i].attr({"x":XY.cx, "y": XY.cy, "text" : data[dataPoint][i]});
+                } else {
+                    bubbles[i].attr({
+						"cx": 0,
+						"cy": 0,
+						"r": 0
+					}).attr(calculate_a_point_on_a_circles_circumference(bigR, bigCX, bigCY, newR));
+                   texts[i].attr({"x":XY.cx, "y": XY.cy, "text" : ""});
+				}
+            }
+            
         }
         
+        
         $('span').click(function(){
-            setUpBubbleChart($(this).index());
+            upDateBubbleChart($(this).index());
             $('.selected').removeClass('selected');
             $(this).addClass('selected');
             
         });
         
         setPaperSizes();
-        setUpBubbleChart(dataPoint);
-		
-		
+        setUpBubbleChart();
+        upDateBubbleChart(dataPoint);
     </script>
 </html>
