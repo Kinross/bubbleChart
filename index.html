@@ -53,11 +53,11 @@
             #g {
                 background: #ffffe5;
                 width: 100%;
+				height:400pt;
             }
             
             body {
                 width: 90%;
-				height:500pt;
                 margin: auto;
             }
         </style>
@@ -79,7 +79,7 @@
     </body>
     <script>
         var paper = Raphael(document.getElementById("g"), 0, 0);
-        paper.setSize('100%', '80%');
+
         
         var bigCX = 300;
         var bigCY = 300;
@@ -92,7 +92,7 @@
         }
         
         function setPaperSizes(){
-            paper.setSize('100%', '80%');
+            paper.setSize('100%', $("#g").height());
             bigCX = $("#g").width() / 2;
             bigCY = $("#g").height() / 2;
             
@@ -176,5 +176,7 @@
         
         setPaperSizes();
         setUpBubbleChart(dataPoint);
+		
+		
     </script>
 </html>
