@@ -78,7 +78,7 @@
         </div>
     </body>
     <script>
-        var paper = Raphael(document.getElementById("g"), 0, 0) , centerText, centerBubble , bubbles =[] , texts = [];
+        var paper = Raphael(document.getElementById("g"), 0, 0), centerText, centerBubble, bubbles = [], texts = [];
         
         
         var bigCX, bigCY, bigR;
@@ -132,18 +132,18 @@
             for (i = 0; i < data[0].length; i++) {
             
                 radius = 0;
-                                                                
+                
                 var XY = calculate_a_point_on_a_circles_circumference(bigR, bigCX, bigCY, radius);
                 
                 bubbles.push(paper.circle(0, 0, radius).attr(calculate_a_point_on_a_circles_circumference(bigR, bigCX, bigCY, radius)));
                 texts.push(paper.text(XY.cx, XY.cy, ""));
-            
-			}
+                
+            }
         }
         
         function upDateBubbleChart(x){
         
-            var total = 0, degrees = 0, radius, newR, radius_multiplier, i, number_of_bubbles_to_show = 0;
+            var total = 0, degrees = 0, radius, newR, radius_multiplier, i, number_of_bubbles_to_show = 0 , XY;
             
             dataPoint = x;
             
@@ -155,12 +155,12 @@
             });
             
             centerBubble.attr({
-				"cx": bigCX,
-				"cy": bigCY,
-				"r": bigR
-			});
-
-
+                "cx": bigCX,
+                "cy": bigCY,
+                "r": bigR
+            });
+            
+            
             
             for (i = 0; i < data[dataPoint].length; i++) {
             
@@ -172,16 +172,19 @@
                 }
                 
             }
-			
-            centerText.attr({"x":bigCX , "y": bigCY});
-                        
+            
+            centerText.attr({
+                "x": bigCX,
+                "y": bigCY
+            });
+            
             if (total == 0) {
                 centerText.attr("text", "No data in " + $("span:eq(" + (dataPoint - 1) + ")").text());
             }
             else {
                 centerText.attr("text", "");
             }
-
+            
             
             for (i = 0; i < data[dataPoint].length; i++) {
             
@@ -196,24 +199,36 @@
                 if (number_of_bubbles_to_show < 3) {
                     radius_multiplier = bigR / total;
                 }
-                
-                var XY = calculate_a_point_on_a_circles_circumference(bigR, bigCX, bigCY, newR);
-                
+                                
                 if (data[dataPoint][i] > 0) {
+					
+                	XY = calculate_a_point_on_a_circles_circumference(bigR, bigCX, bigCY, newR);
+					
                     bubbles[i].attr({
-						"cx": 0,
-						"cy": 0,
-						"r": radius * radius_multiplier
-					}).attr(calculate_a_point_on_a_circles_circumference(bigR, bigCX, bigCY, newR));
-                   texts[i].attr({"x":XY.cx, "y": XY.cy, "text" : data[dataPoint][i]});
-                } else {
+                        "cx": 0,
+                        "cy": 0,
+                        "r": radius * radius_multiplier
+                    }).attr(calculate_a_point_on_a_circles_circumference(bigR, bigCX, bigCY, newR));
+                    texts[i].attr({
+                        "x": XY.cx,
+                        "y": XY.cy,
+                        "text": data[dataPoint][i]
+                    });
+                }
+                else {
+                	XY = calculate_a_point_on_a_circles_circumference(bigR, bigCX, bigCY, 0);
+					
                     bubbles[i].attr({
-						"cx": 0,
-						"cy": 0,
-						"r": 0
-					}).attr(calculate_a_point_on_a_circles_circumference(bigR, bigCX, bigCY, newR));
-                   texts[i].attr({"x":XY.cx, "y": XY.cy, "text" : ""});
-				}
+                        "cx": XY.cx,
+                        "cy": XY.cy,
+                        "r": 0
+                    });
+                    texts[i].attr({
+                        "x": XY.cx,
+                        "y": XY.cy,
+                        "text": ""
+                    });
+                }
             }
             
         }
