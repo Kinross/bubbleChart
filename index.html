@@ -119,31 +119,27 @@
             var total = 0, degrees = 0, radius, newR, radius_multiplier, i;
             
             
-            centerBubble = paper.circle(bigCX, bigCY, bigR).attr({
+            centerBubble = paper.circle(bigCX, bigCY, 0).attr({
                 "fill": "pink",
                 "fill-opacity": 0.3,
                 "stroke-width": 0
             });
             
-            
             centerText = paper.text(bigCX, bigCY, "");
-            
             
             for (i = 0; i < data[0].length; i++) {
             
                 radius = 0;
                 
-                var XY = calculate_a_point_on_a_circles_circumference(bigR, bigCX, bigCY, radius);
-                
-                bubbles.push(paper.circle(0, 0, radius).attr(calculate_a_point_on_a_circles_circumference(bigR, bigCX, bigCY, radius)));
-                texts.push(paper.text(XY.cx, XY.cy, ""));
+                bubbles.push(paper.circle(bigCX, bigCY, 0));
+                texts.push(paper.text(bigCX, bigCY, ""));
                 
             }
         }
         
         function upDateBubbleChart(x){
         
-            var total = 0, degrees = 0, radius, newR, radius_multiplier, i, number_of_bubbles_to_show = 0 , XY;
+            var total = 0, degrees = 0, radius, newR, radius_multiplier, i, number_of_bubbles_to_show = 0, XY;
             
             dataPoint = x;
             
@@ -154,11 +150,11 @@
                 "cy": bigCY
             });
             
-            centerBubble.attr({
+            centerBubble.stop().animate({
                 "cx": bigCX,
                 "cy": bigCY,
                 "r": bigR
-            });
+            },400);
             
             
             
@@ -199,33 +195,35 @@
                 if (number_of_bubbles_to_show < 3) {
                     radius_multiplier = bigR / total;
                 }
-                                
+                
                 if (data[dataPoint][i] > 0) {
-					
-                	XY = calculate_a_point_on_a_circles_circumference(bigR, bigCX, bigCY, newR);
-					
-                    bubbles[i].attr({
-                        "cx": 0,
-                        "cy": 0,
-                        "r": radius * radius_multiplier
-                    }).attr(calculate_a_point_on_a_circles_circumference(bigR, bigCX, bigCY, newR));
-                    texts[i].attr({
-                        "x": XY.cx,
-                        "y": XY.cy,
-                        "text": data[dataPoint][i]
-                    });
-                }
-                else {
-                	XY = calculate_a_point_on_a_circles_circumference(bigR, bigCX, bigCY, 0);
-					
-                    bubbles[i].attr({
+                
+                    XY = calculate_a_point_on_a_circles_circumference(bigR, bigCX, bigCY, newR);
+                    
+                    bubbles[i].stop().animate({
                         "cx": XY.cx,
                         "cy": XY.cy,
-                        "r": 0
-                    });
-                    texts[i].attr({
+                        "r": radius * radius_multiplier
+                    }, 400);
+                    
+                    texts[i].attr("text", data[dataPoint][i]);
+                    
+                    texts[i].stop().animate({
                         "x": XY.cx,
                         "y": XY.cy,
+                    }, 400);
+                }
+                else {
+                    XY = calculate_a_point_on_a_circles_circumference(bigR, bigCX, bigCY, 0);
+                    
+                    bubbles[i].stop().animate({
+                        "cx": bigCX,
+                        "cy": bigCY,
+                        "r": 0
+                    }, 400);
+                    texts[i].stop().attr({
+                        "x": bigCX,
+                        "y": bigCY,
                         "text": ""
                     });
                 }
