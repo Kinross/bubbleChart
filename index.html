@@ -241,6 +241,14 @@
         
         setPaperSizes();
         setUpBubbleChart();
-        upDateBubbleChart(dataPoint);
-    </script>
+		
+		// fix animation lag at the start of load up
+        var setUpInterval = setInterval(function(){
+       		upDateBubbleChart(dataPoint);
+            clearInterval(setUpInterval);
+        }, 400);
+        
+
+	
+	</script>
 </html>
