@@ -1,0 +1,180 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1">
+        <title>Bubble chart</title>
+        <script type='text/javascript' src='raphael.js'>
+        </script>
+        <script type="text/javascript" src="jquery-2.0.0.min.js">
+        </script>
+        <style>
+            
+            
+            /* CSS reset */ * {
+                margin: 0;
+                padding: 0;
+                font-size: 13pt;
+                font-weight: normal;
+                width: 100%;
+                list-style-type: none;
+                vertical-align: middle;
+                font-family: Helvetica, Arial, sans-serif;
+                -webkit-touch-callout: none;
+                -webkit-user-select: none;
+                -khtml-user-select: none;
+                -moz-user-select: none;
+                -ms-user-select: none;
+                user-select: none;
+            }
+            
+            span:hover {
+                cursor: pointer;
+                opacity: 1;
+            }
+            
+            .selected {
+                background: red;
+                opacity: 1;
+            }
+            
+            span {
+                display: inline;
+                padding: 5pt;
+                margin: 5pt;
+                background: black;
+                color: white;
+                opacity: 0.8;
+            }
+            
+            .year {
+                padding: 10pt 5pt;
+            }
+            
+            #g {
+                background: #ffffe5;
+                width: 100%;
+            }
+            
+            body {
+                width: 90%;
+				height:500pt;
+                margin: auto;
+            }
+        </style>
+    </head>
+    <body>
+        <div class='year'>
+            Select a year:
+        </div>
+        <span class='selected'>2005 </span>
+        <span>2006 </span>
+        <span>2007 </span>
+        <span>2008 </span>
+        <span>2009 </span>
+        <span>2010 </span>
+        <span>2011 </span>
+        <span>2012 </span>
+        <div id='g'>
+        </div>
+    </body>
+    <script>
+        var paper = Raphael(document.getElementById("g"), 0, 0);
+        paper.setSize('100%', '80%');
+        
+        var bigCX = 300;
+        var bigCY = 300;
+        var bigR = 200;
+        var dataPoint = 1;
+        
+        window.onresize = function(){
+            setPaperSizes();
+            setUpBubbleChart(dataPoint);
+        }
+        
+        function setPaperSizes(){
+            paper.setSize('100%', '80%');
+            bigCX = $("#g").width() / 2;
+            bigCY = $("#g").height() / 2;
+            
+            bigR = bigCY / 2;
+            
+            if (bigCY > bigCX) {
+                bigR = bigCX / 2;
+            }
+            
+        }
+        
+        function calculate_a_point_on_a_circles_circumference(circle_radius, circle_center_x_axis, circle_center_y_axis, angle_in_degrees){
+            var x = circle_center_x_axis + (circle_radius * Math.cos((angle_in_degrees - 90) * (Math.PI / 180))), y = circle_center_y_axis + (circle_radius * Math.sin((angle_in_degrees - 90) * (Math.PI / 180)));
+            return ({
+                "cx": x,
+                "cy": y
+            });
+        }
+        
+        // areas 
+        var data = [[0], [98, 1, 1, 1, 1, 0, 0, 0, 1, 1], [2, 1], [2, 1, 1, 1, 1, 4, 1, 0.4, 1, 1], [6, 7, 8, 4, 6, 9, 3, 5, 7, 9, 6, 3, 4, 5, 6, 5, 3, 6, 8], [1], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [98, 1, 1, 1, 1], [4, 1, 1]];
+        
+        
+        function setUpBubbleChart(x){
+        
+            var total = 0, degrees = 0, radius, newR, radius_multiplier, i;
+            
+            dataPoint = x;
+            
+            paper.clear();
+            
+            paper.circle(bigCX, bigCY, bigR).attr({
+                "fill": "pink",
+                "fill-opacity": 0.3,
+                "stroke-width": 0
+            });
+            
+            ;
+            
+            for (i = 0; i < data[dataPoint].length; i++) {
+            
+                // radius = sqrt(area / PI)
+                total = total + Math.sqrt(data[dataPoint][i] / Math.PI)
+            }
+            
+            if (total == 0) {
+                paper.text(bigCX, bigCY, "No data in " + $("span:eq(" + (dataPoint - 1) + ")").text());
+            }
+            else {
+            
+                for (i = 0; i < data[dataPoint].length; i++) {
+                
+                    radius = Math.sqrt(data[dataPoint][i] / Math.PI);
+                    
+                    degrees = degrees + radius;
+                    
+                    newR = (360 / total) * (degrees - (radius / 2));
+                    
+                    radius_multiplier = (bigR * 2) / total;
+                    
+                    if (data[dataPoint].length < 3) {
+                        radius_multiplier = bigR / total;
+                    }
+                    
+                    var XY = calculate_a_point_on_a_circles_circumference(bigR, bigCX, bigCY, newR);
+                    
+                    if (data[dataPoint][i] > 0) {
+                        paper.circle(0, 0, radius * radius_multiplier).attr(calculate_a_point_on_a_circles_circumference(bigR, bigCX, bigCY, newR));
+                        paper.text(XY.cx, XY.cy, data[dataPoint][i]);
+                    }
+                }
+            }
+        }
+        
+        $('span').click(function(){
+            setUpBubbleChart($(this).index());
+            $('.selected').removeClass('selected');
+            $(this).addClass('selected');
+            
+        });
+        
+        setPaperSizes();
+        setUpBubbleChart(dataPoint);
+    </script>
+</html>
