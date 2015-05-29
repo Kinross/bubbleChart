@@ -74,6 +74,7 @@
         <span>2010 </span>
         <span>2011 </span>
         <span>2012 </span>
+        <span>2013 </span>
         <div id='g'>
         </div>
     </body>
@@ -111,7 +112,18 @@
         }
         
         // areas 
-        var data = [[0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [98, 1, 1, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [2, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [2, 1, 1, 1, 1, 4, 1, 0.4, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [6, 7, 8, 4, 6, 9, 3, 5, 7, 9, 6, 3, 4, 5, 6, 5, 3, 6, 8, 0, 0, 0, 0, 0, 0, 0], [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [70, 1, 1, 1, 1, 0, 0, 0, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0], [4, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0]];
+        var data = [
+		[{id:"a",area: 0},{id:"b",area:  0},{id:"c",area:  0},{id:"c",area:  0},{id:"d",area:  0},{id:"e",area:  0},{id:"f",area:  0},{id:"g",area:  0},{id:"h",area:  0},{id:"i",area:  0},{id:"j",area:  0},{id:"k",area:  0},{id:"l",area:  0},{id:"m",area:  0},{id:"n",area:  0},{id:"o",area:  0},{id:"p",area:  0},{id:"q",area:  0},{id:"r",area:  0},{id:"s",area:  0},{id:"t",area:  0},{id:"u",area:  0},{id:"v",area:  0},{id:"w",area:  0},{id:"x",area:  0},{id:"y",area:  0}], 
+		[{id:"a",area: 98},{id:"b",area:  1},{id:"c",area:  1},{id:"c",area:  1},{id:"d",area:  1},{id:"e",area:  0},{id:"f",area:  0},{id:"g",area:  0},{id:"h",area:  1},{id:"i",area:  1},{id:"j",area:  0},{id:"k",area:  0},{id:"l",area:  0},{id:"m",area:  0},{id:"n",area:  0},{id:"o",area:  0},{id:"p",area:  0},{id:"q",area:  0},{id:"r",area:  0},{id:"s",area:  0},{id:"t",area:  0},{id:"u",area:  0},{id:"v",area:  0},{id:"w",area:  0},{id:"x",area:  0},{id:"y",area:  0}], 
+		[{id:"a",area: 2},{id:"b",area:  1},{id:"c",area:  0},{id:"c",area:  0},{id:"d",area:  0},{id:"e",area:  0},{id:"f",area:  0},{id:"g",area:  0},{id:"h",area:  0},{id:"i",area:  0},{id:"j",area:  0},{id:"k",area:  0},{id:"l",area:  0},{id:"m",area:  0},{id:"n",area:  0},{id:"o",area:  0},{id:"p",area:  0},{id:"q",area:  0},{id:"r",area:  0},{id:"s",area:  0},{id:"t",area:  0},{id:"u",area:  0},{id:"v",area:  0},{id:"w",area:  0},{id:"x",area:  0},{id:"y",area:  0}], 
+		[{id:"a",area: 2},{id:"b",area:  1},{id:"c",area:  1},{id:"c",area:  1},{id:"d",area:  1},{id:"e",area:  4},{id:"f",area:  1},{id:"g",area:  0.4},{id:"h",area:  1},{id:"i",area:  1},{id:"j",area:  0},{id:"k",area:  0},{id:"l",area:  0},{id:"m",area:  0},{id:"n",area:  0},{id:"o",area:  0},{id:"p",area:  0},{id:"q",area:  0},{id:"r",area:  0},{id:"s",area:  0},{id:"t",area:  0},{id:"u",area:  0},{id:"v",area:  0},{id:"w",area:  0},{id:"x",area:  0},{id:"y",area:  0}], 
+		[{id:"a",area: 6},{id:"b",area:  7},{id:"c",area:  8},{id:"c",area:  4},{id:"d",area:  6},{id:"e",area:  9},{id:"f",area:  3},{id:"g",area:  5},{id:"h",area:  7},{id:"i",area:  9},{id:"j",area:  6},{id:"k",area:  3},{id:"l",area:  4},{id:"m",area:  5},{id:"n",area:  6},{id:"o",area:  5},{id:"p",area:  3},{id:"q",area:  6},{id:"r",area:  8},{id:"s",area:  0},{id:"t",area:  0},{id:"u",area:  0},{id:"v",area:  0},{id:"w",area:  0},{id:"x",area:  0},{id:"y",area:  0}], 
+		[{id:"a",area: 1},{id:"b",area:  0},{id:"c",area:  0},{id:"c",area:  0},{id:"d",area:  0},{id:"e",area:  0},{id:"f",area:  0},{id:"g",area:  0},{id:"h",area:  0},{id:"i",area:  0},{id:"j",area:  0},{id:"k",area:  0},{id:"l",area:  0},{id:"m",area:  0},{id:"n",area:  0},{id:"o",area:  0},{id:"p",area:  0},{id:"q",area:  0},{id:"r",area:  0},{id:"s",area:  0},{id:"t",area:  0},{id:"u",area:  0},{id:"v",area:  0},{id:"w",area:  0},{id:"x",area:  0},{id:"y",area:  0}], 
+		[{id:"a",area: 0},{id:"b",area:  0},{id:"c",area:  0},{id:"c",area:  0},{id:"d",area:  0},{id:"e",area:  0},{id:"f",area:  0},{id:"g",area:  0},{id:"h",area:  0},{id:"i",area:  0},{id:"j",area:  0},{id:"k",area:  0},{id:"l",area:  0},{id:"m",area:  0},{id:"n",area:  0},{id:"o",area:  0},{id:"p",area:  0},{id:"q",area:  0},{id:"r",area:  0},{id:"s",area:  0},{id:"t",area:  0},{id:"u",area:  0},{id:"v",area:  0},{id:"w",area:  0},{id:"x",area:  0},{id:"y",area:  0}], 
+		[{id:"a",area: 70},{id:"b",area:  1},{id:"c",area:  1},{id:"c",area:  1},{id:"d",area:  1},{id:"e",area:  0},{id:"f",area:  0},{id:"g",area:  0},{id:"h",area:  1},{id:"i",area:  1},{id:"j",area:  0},{id:"k",area:  0},{id:"l",area:  0},{id:"m",area:  0},{id:"n",area:  0},{id:"o",area:  0},{id:"p",area:  0},{id:"q",area:  0},{id:"r",area:  0},{id:"s",area:  0},{id:"t",area:  0},{id:"u",area:  0},{id:"v",area:  0},{id:"w",area:  0},{id:"x",area:  0},{id:"y",area:  0}], 
+		[{id:"a",area: 4},{id:"b",area:  1},{id:"c",area:  1},{id:"c",area:  0},{id:"d",area:  0},{id:"e",area:  0},{id:"f",area:  0},{id:"g",area:  0},{id:"h",area:  0},{id:"i",area:  0},{id:"j",area:  0},{id:"k",area:  0},{id:"l",area:  0},{id:"m",area:  0},{id:"n",area:  0},{id:"o",area:  0},{id:"p",area:  0},{id:"q",area:  0},{id:"r",area:  0},{id:"s",area:  0},{id:"t",area:  0},{id:"u",area:  0},{id:"v",area:  0},{id:"w",area:  0},{id:"x",area:  0},{id:"y",area:  0}],
+		[{id:"a",area: 70},{id:"b",area:  1},{id:"c",area:  1},{id:"c",area:  1},{id:"d",area:  1},{id:"e",area:  10},{id:"f",area:  10},{id:"g",area:  10},{id:"h",area:  1},{id:"i",area:  1},{id:"j",area:  10},{id:"k",area:  10},{id:"l",area:  10},{id:"m",area:  10},{id:"n",area:  10},{id:"o",area:  10},{id:"p",area:  10},{id:"q",area:  10},{id:"r",area:  10},{id:"s",area:  10},{id:"t",area:  10},{id:"u",area:  10},{id:"v",area:  10},{id:"w",area:  10},{id:"x",area:  10},{id:"y",area:  10}] 
+		];
         
         
         function setUpBubbleChart(){
@@ -136,10 +148,20 @@
                 
             }
         }
+		
+		
+        function sortByKey(array, key){
+            return array.sort(function(a, b){
+                var x = a[key];
+                var y = b[key];
+                return ((x > y) ? -1 : ((x < y) ? 1 : 0));
+            });
+        }
+
         
         function upDateBubbleChart(x){
         
-            var total = 0, degrees = 0, radius, newR, radius_multiplier, i, number_of_bubbles_to_show = 0, XY;
+            var total = 0, degrees = 0, radius, newR, radius_multiplier, i, number_of_bubbles_to_show = 0, XY, newArray;
             
             dataPoint = x;
             
@@ -157,13 +179,16 @@
             },400);
             
             
-            
+            newArray = sortByKey(data[dataPoint], 'area');
+
+			data[dataPoint] = newArray;
+			
             for (i = 0; i < data[dataPoint].length; i++) {
             
                 // radius = sqrt(area / PI)
-                total = total + Math.sqrt(data[dataPoint][i] / Math.PI)
+                total = total + Math.sqrt(data[dataPoint][i].area / Math.PI)
                 
-                if (data[dataPoint][i] > 0) {
+                if (data[dataPoint][i].area > 0) {
                     number_of_bubbles_to_show++;
                 }
                 
@@ -184,7 +209,7 @@
             
             for (i = 0; i < data[dataPoint].length; i++) {
             
-                radius = Math.sqrt(data[dataPoint][i] / Math.PI);
+                radius = Math.sqrt(data[dataPoint][i].area / Math.PI);
                 
                 degrees = degrees + radius;
                 
@@ -196,7 +221,7 @@
                     radius_multiplier = bigR / total;
                 }
                 
-                if (data[dataPoint][i] > 0) {
+                if (data[dataPoint][i].area > 0) {
                 
                     XY = calculate_a_point_on_a_circles_circumference(bigR, bigCX, bigCY, newR);
                     
@@ -206,7 +231,7 @@
                         "r": radius * radius_multiplier
                     }, 400);
                     
-                    texts[i].attr("text", data[dataPoint][i]);
+                    texts[i].attr("text", data[dataPoint][i].area + ":" + data[dataPoint][i].id);
                     
                     texts[i].stop().animate({
                         "x": XY.cx,
