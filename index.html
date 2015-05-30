@@ -25,6 +25,17 @@
                 -ms-user-select: none;
                 user-select: none;
             }
+			
+			#hover {
+				position: absolute;
+				padding: 2pt 5pt;
+				background: #212121;
+				color: #fff;
+				z-index: 99999;
+				top: 100px;
+				left: -1000px;
+				width: auto;				
+			}			
             
             span:hover, div.btn:hover {
                 cursor: pointer;
@@ -68,6 +79,7 @@
         </style>
     </head>
     <body>
+		<div id='hover' class='hide'></div>
         <div class='year'>
             Select a year:
         </div>
@@ -98,10 +110,70 @@
         
         var colours = ['#ee2626', '#fcc23b', '#457df5', '#00a45e'];
         
+		var $hover = $('#hover');
+		var intervals = [];
+		
         function RandomNumber(){
             return Math.floor(Math.random() * colours.length);
         }
         
+        var mouseX, mouseY;
+        document.addEventListener('mousemove', function(e){
+            mouseX = e.clientX || e.pageX;
+            mouseY = e.clientY || e.pageY;
+        }, false);
+        document.addEventListener('touchmove', function(e){
+            mouseX = e.clientX || e.pageX;
+            mouseY = e.clientY || e.pageY;
+        }, false);
+		
+        function setHover(i){
+			
+			var mousePadding = 10;
+        
+            $hover.html( data[dataPoint][i].id + " : " + (data[dataPoint][i].area) );
+            
+            intervals['hover'] = setInterval(function(){
+            
+                var scroll = $(window).scrollTop();
+                
+                var left_;
+                
+                if (mouseX > ($hover.parent().width() / 2)) {
+                    left_ = (mouseX - $hover.width() - (mousePadding * 2.5)) + "px";
+                }
+                else {
+                    left_ = (mouseX + (mousePadding * 1.6)) + "px";
+                }
+                
+                $hover.css({
+                    "top": (scroll + mouseY - mousePadding) + "px",
+                    "left": left_
+                });
+                
+            }, 20);
+            
+            $hover.removeClass('hide');
+        }
+
+        function removeHover(){
+            $hover.addClass('hide');
+            clearInterval(intervals['hover']);            
+            $hover.text('');
+            $hover.css({
+                "top": -100,
+                "left": -100
+            });
+        }
+		
+        function clicks(test, i){
+            test.mouseover(function(){
+                setHover(i);
+            }).mouseout(function(){
+                removeHover();
+            });
+        }
+						
         var showBiggest = 'NO';
         var bigCX, bigCY, bigR;
         var dataPoint = 1;
@@ -151,12 +223,16 @@
             
                 radius = 0;
                 
+                texts.push(paper.text(bigCX, bigCY, ""));
+				
                 bubbles.push(paper.circle(bigCX, bigCY, 0).attr({
                     "fill": colours[RandomNumber()],
-                    "fill-opacity": 0.6,
+                    "fill-opacity": 0.4,
                     "stroke-width": 0
                 }));
-                texts.push(paper.text(bigCX, bigCY, ""));
+				
+				
+				clicks(bubbles[i] , i);
                 
             }
             
@@ -164,6 +240,10 @@
                 oldSortedArray.push(data[dataPoint][i].id);
             }
         }
+		
+		
+		
+		
         
         
         function sortByKey(array, key){
