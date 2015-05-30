@@ -91,6 +91,7 @@
         <span>2009 </span>
         <span>2010 </span>
         <span>2011 </span>
+        <span>2012 </span>
         <div class='biggest'>
             Show biggest:
         </div>
@@ -129,10 +130,9 @@
         function setHover(i){
 			
 			var mousePadding = 10;
-        
 
 			// bug number not hooked up yet!
-            $hover.html( getHoverIndex(i) + " : " + (data[dataPoint][i].area) );
+            $hover.html( hoverSortedArray[getHoverText(i)].id + " : " + data[dataPoint][getCurrentArrayIndex(hoverSortedArray[getHoverText(i)].id)].area   );
 			
             
             intervals['hover'] = setInterval(function(){
@@ -242,7 +242,7 @@
             
             for (i = 0; i < data[dataPoint].length; i++) {
                 oldSortedArray.push(data[dataPoint][i].id);
-                hoverSortedArray.push(data[dataPoint][i].id);
+                hoverSortedArray.push(data[dataPoint][i]);
             }
         }
 		
@@ -397,7 +397,7 @@
         }
         
         $('span').click(function(){
-            upDateBubbleChart($(this).index());
+            upDateBubbleChart($(this).index() - 1);
             $('span.selected').removeClass('selected');
             $(this).addClass('selected');
             
@@ -427,13 +427,23 @@
                 }
             }
             return false;
-        } 
+        }
 		
-        function getHoverIndex(tagPoint){
+        function getCurrentArrayIndex(tagName){
+            for (var j = 0; j < (data[dataPoint]).length; j++) {
+                if (data[dataPoint][j].id == tagName) {
+                    return j;
+                }
+            }
+            return false;
+        }
+		
+		
+        function getHoverText(tagPoint){
             var i = null;
             for (i = 0; hoverSortedArray.length > i; i++) {
                 if (i === tagPoint) {
-                    return hoverSortedArray[i];
+                    return i;
                 }
             }
             return false;
