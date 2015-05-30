@@ -169,7 +169,6 @@
         
             var total = 0, degrees = 0, radius, newR, radius_multiplier, i, number_of_bubbles_to_show = 0, XY;
             
-            dataPoint = x;
                         
             centerBubble.attr({
                 "cx": bigCX,
@@ -183,7 +182,11 @@
             },400);
             
 			
-			sortByKey(data[dataPoint], 'area');
+			if (dataPoint != x) {
+            	dataPoint = x;
+				sortByKey(data[dataPoint], 'area');
+			}
+			
 
 			
             for (i = 0; i < 10; i++) {
