@@ -163,6 +163,15 @@
                 return ((x > y) ? -1 : ((x < y) ? 1 : 0));
             });
         }
+		
+        function sortAlphabetical(array, key){
+            return array.sort(function(a, b){
+                var x = a[key];
+                var y = b[key];
+                return ((x < y) ? -1 : ((x > y) ? 1 : 0));
+            });
+        }
+		
 
         
         function upDateBubbleChart(x){
@@ -184,6 +193,7 @@
 			
 			if (dataPoint != x) {
             	dataPoint = x;
+				sortAlphabetical(data[dataPoint], 'id');
 				sortByKey(data[dataPoint], 'area');
 			}
 			
