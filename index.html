@@ -170,9 +170,7 @@
             var total = 0, degrees = 0, radius, newR, radius_multiplier, i, number_of_bubbles_to_show = 0, XY;
             
             dataPoint = x;
-            
-            //paper.clear();
-            
+                        
             centerBubble.attr({
                 "cx": bigCX,
                 "cy": bigCY
@@ -184,8 +182,6 @@
                 "r": bigR
             },400);
             
-            
-
 			
 			sortByKey(data[dataPoint], 'area');
 
@@ -217,7 +213,7 @@
             for (i = 0; i < data[dataPoint].length; i++) {
 				
 				
-				arrayIndex = getArrayIndex(oldSortedArray[i]);
+				arrayIndex = getArrayIndex(data[dataPoint][i].id);
 
 				console.log(arrayIndex);
             
@@ -288,8 +284,8 @@
 
         function getArrayIndex(tagName){
             var i = null;
-            for (i = 0; data[dataPoint].length > i; i++) {
-                if (data[dataPoint][i].id === tagName) {
+            for (i = 0; oldSortedArray.length > i; i++) {
+                if (oldSortedArray[i] === tagName) {
                     return i;
                 }
             }
