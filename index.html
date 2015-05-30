@@ -27,17 +27,12 @@
                 user-select: none;
             }
             
-            span:hover {
+            span:hover, div.btn:hover {
                 cursor: pointer;
                 opacity: 1;
             }
             
-            .selected {
-                background: #ee2626;
-                opacity: 1;
-            }
-            
-            span {
+            span, div.btn {
                 display: inline;
                 padding: 5pt;
                 margin: 5pt;
@@ -46,8 +41,18 @@
                 opacity: 0.8;
             }
             
+            .selected, div.selected {
+                background: #ee2626;
+                opacity: 1;
+            }
+            
             .year {
                 padding: 10pt 5pt;
+            }
+            
+            .biggest {
+                padding: 10pt 5pt;
+                padding-top: 30pt;
             }
             
             #g {
@@ -75,19 +80,29 @@
         <span>2011 </span>
         <span>2012 </span>
         <span>2013 </span>
+        <div class='biggest'>
+            Show biggest:
+        </div>
+        <div class='btn'>
+            YES
+        </div>
+        <div class='btn selected'>
+            NO
+        </div>
         <div id='g'>
         </div>
     </body>
     <script>
-    	
-        var paper = Raphael(document.getElementById("g"), 0, 0), centerText, centerBubble, bubbles = [], texts = [] , oldSortedArray = [];
         
-		var colours = ['#ee2626' ,'#fcc23b' ,'#457df5','#00a45e' ];
-		
+        var paper = Raphael(document.getElementById("g"), 0, 0), centerText, centerBubble, bubbles = [], texts = [], oldSortedArray = [];
+        
+        var colours = ['#ee2626', '#fcc23b', '#457df5', '#00a45e'];
+        
         function RandomNumber(){
             return Math.floor(Math.random() * colours.length);
         }
-		
+        
+        var showBiggest = 'NO';
         var bigCX, bigCY, bigR;
         var dataPoint = 1;
         
@@ -118,21 +133,760 @@
         }
         
         // areas 
-        var data = [
-		[{id:"a",area: 0},{id:"b",area:  0},{id:"c",area:  0},{id:"d",area:  0},{id:"e",area:  0},{id:"f",area:  0},{id:"g",area:  0},{id:"h",area:  0},{id:"i",area:  0},{id:"j",area:  0},{id:"k",area:  0},{id:"l",area:  0},{id:"m",area:  0},{id:"n",area:  0},{id:"o",area:  0},{id:"p",area:  0},{id:"q",area:  0},{id:"r",area:  0},{id:"s",area:  0},{id:"t",area:  0},{id:"u",area:  0},{id:"v",area:  0},{id:"w",area:  0},{id:"x",area:  0},{id:"y",area:  0}], 
-		[{id:"a",area: 98},{id:"b",area:  10},{id:"c",area:  1},{id:"d",area:  1},{id:"e",area:  0},{id:"f",area:  0},{id:"g",area:  0},{id:"h",area:  1},{id:"i",area:  1},{id:"j",area:  0},{id:"k",area:  0},{id:"l",area:  0},{id:"m",area:  0},{id:"n",area:  0},{id:"o",area:  0},{id:"p",area:  0},{id:"q",area:  0},{id:"r",area:  0},{id:"s",area:  0},{id:"t",area:  0},{id:"u",area:  0},{id:"v",area:  0},{id:"w",area:  0},{id:"x",area:  0},{id:"y",area:  0}], 
-		[{id:"a",area: 2},{id:"b",area:  8},{id:"c",area:  50},{id:"d",area:  0},{id:"e",area:  0},{id:"f",area:  0},{id:"g",area:  0},{id:"h",area:  0},{id:"i",area:  0},{id:"j",area:  0},{id:"k",area:  0},{id:"l",area:  0},{id:"m",area:  0},{id:"n",area:  0},{id:"o",area:  0},{id:"p",area:  0},{id:"q",area:  0},{id:"r",area:  0},{id:"s",area:  0},{id:"t",area:  0},{id:"u",area:  0},{id:"v",area:  0},{id:"w",area:  0},{id:"x",area:  0},{id:"y",area:  0}], 
-		[{id:"a",area: 2},{id:"b",area:  1},{id:"c",area:  1},{id:"d",area:  1},{id:"e",area:  4},{id:"f",area:  1},{id:"g",area:  0.4},{id:"h",area:  1},{id:"i",area:  1},{id:"j",area:  0},{id:"k",area:  0},{id:"l",area:  0},{id:"m",area:  0},{id:"n",area:  0},{id:"o",area:  0},{id:"p",area:  0},{id:"q",area:  0},{id:"r",area:  0},{id:"s",area:  0},{id:"t",area:  0},{id:"u",area:  0},{id:"v",area:  0},{id:"w",area:  0},{id:"x",area:  0},{id:"y",area:  0}], 
-		[{id:"a",area: 6},{id:"b",area:  7},{id:"c",area:  8},{id:"d",area:  6},{id:"e",area:  9},{id:"f",area:  3},{id:"g",area:  5},{id:"h",area:  7},{id:"i",area:  9},{id:"j",area:  6},{id:"k",area:  3},{id:"l",area:  4},{id:"m",area:  5},{id:"n",area:  6},{id:"o",area:  5},{id:"p",area:  3},{id:"q",area:  6},{id:"r",area:  8},{id:"s",area:  0},{id:"t",area:  0},{id:"u",area:  0},{id:"v",area:  0},{id:"w",area:  0},{id:"x",area:  0},{id:"y",area:  0}], 
-		[{id:"a",area: 1},{id:"b",area:  0},{id:"c",area:  0},{id:"d",area:  0},{id:"e",area:  0},{id:"f",area:  0},{id:"g",area:  0},{id:"h",area:  0},{id:"i",area:  0},{id:"j",area:  0},{id:"k",area:  0},{id:"l",area:  0},{id:"m",area:  0},{id:"n",area:  0},{id:"o",area:  0},{id:"p",area:  0},{id:"q",area:  0},{id:"r",area:  0},{id:"s",area:  0},{id:"t",area:  0},{id:"u",area:  0},{id:"v",area:  0},{id:"w",area:  0},{id:"x",area:  0},{id:"y",area:  0}], 
-		[{id:"a",area: 0},{id:"b",area:  0},{id:"c",area:  0},{id:"d",area:  0},{id:"e",area:  0},{id:"f",area:  0},{id:"g",area:  0},{id:"h",area:  0},{id:"i",area:  0},{id:"j",area:  0},{id:"k",area:  0},{id:"l",area:  0},{id:"m",area:  0},{id:"n",area:  0},{id:"o",area:  0},{id:"p",area:  0},{id:"q",area:  0},{id:"r",area:  0},{id:"s",area:  0},{id:"t",area:  0},{id:"u",area:  0},{id:"v",area:  0},{id:"w",area:  0},{id:"x",area:  0},{id:"y",area:  0}], 
-		[{id:"a",area: 70},{id:"b",area:  1},{id:"c",area:  1},{id:"d",area:  1},{id:"e",area:  0},{id:"f",area:  0},{id:"g",area:  0},{id:"h",area:  1},{id:"i",area:  1},{id:"j",area:  0},{id:"k",area:  0},{id:"l",area:  0},{id:"m",area:  0},{id:"n",area:  0},{id:"o",area:  0},{id:"p",area:  0},{id:"q",area:  0},{id:"r",area:  0},{id:"s",area:  0},{id:"t",area:  0},{id:"u",area:  0},{id:"v",area:  0},{id:"w",area:  0},{id:"x",area:  0},{id:"y",area:  0}], 
-		[{id:"a",area: 4},{id:"b",area:  1},{id:"c",area:  1},{id:"d",area:  0},{id:"e",area:  0},{id:"f",area:  0},{id:"g",area:  0},{id:"h",area:  0},{id:"i",area:  0},{id:"j",area:  0},{id:"k",area:  0},{id:"l",area:  0},{id:"m",area:  0},{id:"n",area:  0},{id:"o",area:  0},{id:"p",area:  0},{id:"q",area:  0},{id:"r",area:  0},{id:"s",area:  0},{id:"t",area:  0},{id:"u",area:  0},{id:"v",area:  0},{id:"w",area:  0},{id:"x",area:  0},{id:"y",area:  0}],
-		[{id:"a",area: 70},{id:"b",area:  1},{id:"c",area:  1},{id:"d",area:  1},{id:"e",area:  10},{id:"f",area:  10},{id:"g",area:  10},{id:"h",area:  1},{id:"i",area:  1},{id:"j",area:  10},{id:"k",area:  10},{id:"l",area:  10},{id:"m",area:  10},{id:"n",area:  10},{id:"o",area:  10},{id:"p",area:  10},{id:"q",area:  10},{id:"r",area:  10},{id:"s",area:  10},{id:"t",area:  10},{id:"u",area:  10},{id:"v",area:  10},{id:"w",area:  10},{id:"x",area:  10},{id:"y",area:  10}] 
-		];
+        var data = [[{
+            id: "a",
+            area: 0
+        }, {
+            id: "b",
+            area: 0
+        }, {
+            id: "c",
+            area: 0
+        }, {
+            id: "d",
+            area: 0
+        }, {
+            id: "e",
+            area: 0
+        }, {
+            id: "f",
+            area: 0
+        }, {
+            id: "g",
+            area: 0
+        }, {
+            id: "h",
+            area: 0
+        }, {
+            id: "i",
+            area: 0
+        }, {
+            id: "j",
+            area: 0
+        }, {
+            id: "k",
+            area: 0
+        }, {
+            id: "l",
+            area: 0
+        }, {
+            id: "m",
+            area: 0
+        }, {
+            id: "n",
+            area: 0
+        }, {
+            id: "o",
+            area: 0
+        }, {
+            id: "p",
+            area: 0
+        }, {
+            id: "q",
+            area: 0
+        }, {
+            id: "r",
+            area: 0
+        }, {
+            id: "s",
+            area: 0
+        }, {
+            id: "t",
+            area: 0
+        }, {
+            id: "u",
+            area: 0
+        }, {
+            id: "v",
+            area: 0
+        }, {
+            id: "w",
+            area: 0
+        }, {
+            id: "x",
+            area: 0
+        }, {
+            id: "y",
+            area: 0
+        }], [{
+            id: "a",
+            area: 98
+        }, {
+            id: "b",
+            area: 10
+        }, {
+            id: "c",
+            area: 1
+        }, {
+            id: "d",
+            area: 1
+        }, {
+            id: "e",
+            area: 0
+        }, {
+            id: "f",
+            area: 0
+        }, {
+            id: "g",
+            area: 0
+        }, {
+            id: "h",
+            area: 1
+        }, {
+            id: "i",
+            area: 1
+        }, {
+            id: "j",
+            area: 0
+        }, {
+            id: "k",
+            area: 0
+        }, {
+            id: "l",
+            area: 0
+        }, {
+            id: "m",
+            area: 0
+        }, {
+            id: "n",
+            area: 0
+        }, {
+            id: "o",
+            area: 0
+        }, {
+            id: "p",
+            area: 0
+        }, {
+            id: "q",
+            area: 0
+        }, {
+            id: "r",
+            area: 0
+        }, {
+            id: "s",
+            area: 0
+        }, {
+            id: "t",
+            area: 0
+        }, {
+            id: "u",
+            area: 0
+        }, {
+            id: "v",
+            area: 0
+        }, {
+            id: "w",
+            area: 0
+        }, {
+            id: "x",
+            area: 0
+        }, {
+            id: "y",
+            area: 0
+        }], [{
+            id: "a",
+            area: 2
+        }, {
+            id: "b",
+            area: 8
+        }, {
+            id: "c",
+            area: 50
+        }, {
+            id: "d",
+            area: 0
+        }, {
+            id: "e",
+            area: 0
+        }, {
+            id: "f",
+            area: 0
+        }, {
+            id: "g",
+            area: 0
+        }, {
+            id: "h",
+            area: 0
+        }, {
+            id: "i",
+            area: 0
+        }, {
+            id: "j",
+            area: 0
+        }, {
+            id: "k",
+            area: 0
+        }, {
+            id: "l",
+            area: 0
+        }, {
+            id: "m",
+            area: 0
+        }, {
+            id: "n",
+            area: 0
+        }, {
+            id: "o",
+            area: 0
+        }, {
+            id: "p",
+            area: 0
+        }, {
+            id: "q",
+            area: 0
+        }, {
+            id: "r",
+            area: 0
+        }, {
+            id: "s",
+            area: 0
+        }, {
+            id: "t",
+            area: 0
+        }, {
+            id: "u",
+            area: 0
+        }, {
+            id: "v",
+            area: 0
+        }, {
+            id: "w",
+            area: 0
+        }, {
+            id: "x",
+            area: 0
+        }, {
+            id: "y",
+            area: 0
+        }], [{
+            id: "a",
+            area: 2
+        }, {
+            id: "b",
+            area: 1
+        }, {
+            id: "c",
+            area: 1
+        }, {
+            id: "d",
+            area: 1
+        }, {
+            id: "e",
+            area: 4
+        }, {
+            id: "f",
+            area: 1
+        }, {
+            id: "g",
+            area: 0.4
+        }, {
+            id: "h",
+            area: 1
+        }, {
+            id: "i",
+            area: 1
+        }, {
+            id: "j",
+            area: 0
+        }, {
+            id: "k",
+            area: 0
+        }, {
+            id: "l",
+            area: 0
+        }, {
+            id: "m",
+            area: 0
+        }, {
+            id: "n",
+            area: 0
+        }, {
+            id: "o",
+            area: 0
+        }, {
+            id: "p",
+            area: 0
+        }, {
+            id: "q",
+            area: 0
+        }, {
+            id: "r",
+            area: 0
+        }, {
+            id: "s",
+            area: 0
+        }, {
+            id: "t",
+            area: 0
+        }, {
+            id: "u",
+            area: 0
+        }, {
+            id: "v",
+            area: 0
+        }, {
+            id: "w",
+            area: 0
+        }, {
+            id: "x",
+            area: 0
+        }, {
+            id: "y",
+            area: 0
+        }], [{
+            id: "a",
+            area: 6
+        }, {
+            id: "b",
+            area: 7
+        }, {
+            id: "c",
+            area: 8
+        }, {
+            id: "d",
+            area: 6
+        }, {
+            id: "e",
+            area: 9
+        }, {
+            id: "f",
+            area: 3
+        }, {
+            id: "g",
+            area: 5
+        }, {
+            id: "h",
+            area: 7
+        }, {
+            id: "i",
+            area: 9
+        }, {
+            id: "j",
+            area: 6
+        }, {
+            id: "k",
+            area: 3
+        }, {
+            id: "l",
+            area: 4
+        }, {
+            id: "m",
+            area: 5
+        }, {
+            id: "n",
+            area: 6
+        }, {
+            id: "o",
+            area: 5
+        }, {
+            id: "p",
+            area: 3
+        }, {
+            id: "q",
+            area: 6
+        }, {
+            id: "r",
+            area: 8
+        }, {
+            id: "s",
+            area: 0
+        }, {
+            id: "t",
+            area: 0
+        }, {
+            id: "u",
+            area: 0
+        }, {
+            id: "v",
+            area: 0
+        }, {
+            id: "w",
+            area: 0
+        }, {
+            id: "x",
+            area: 0
+        }, {
+            id: "y",
+            area: 0
+        }], [{
+            id: "a",
+            area: 1
+        }, {
+            id: "b",
+            area: 0
+        }, {
+            id: "c",
+            area: 0
+        }, {
+            id: "d",
+            area: 0
+        }, {
+            id: "e",
+            area: 0
+        }, {
+            id: "f",
+            area: 0
+        }, {
+            id: "g",
+            area: 0
+        }, {
+            id: "h",
+            area: 0
+        }, {
+            id: "i",
+            area: 0
+        }, {
+            id: "j",
+            area: 0
+        }, {
+            id: "k",
+            area: 0
+        }, {
+            id: "l",
+            area: 0
+        }, {
+            id: "m",
+            area: 0
+        }, {
+            id: "n",
+            area: 0
+        }, {
+            id: "o",
+            area: 0
+        }, {
+            id: "p",
+            area: 0
+        }, {
+            id: "q",
+            area: 0
+        }, {
+            id: "r",
+            area: 0
+        }, {
+            id: "s",
+            area: 0
+        }, {
+            id: "t",
+            area: 0
+        }, {
+            id: "u",
+            area: 0
+        }, {
+            id: "v",
+            area: 0
+        }, {
+            id: "w",
+            area: 0
+        }, {
+            id: "x",
+            area: 0
+        }, {
+            id: "y",
+            area: 0
+        }], [{
+            id: "a",
+            area: 0
+        }, {
+            id: "b",
+            area: 0
+        }, {
+            id: "c",
+            area: 0
+        }, {
+            id: "d",
+            area: 0
+        }, {
+            id: "e",
+            area: 0
+        }, {
+            id: "f",
+            area: 0
+        }, {
+            id: "g",
+            area: 0
+        }, {
+            id: "h",
+            area: 0
+        }, {
+            id: "i",
+            area: 0
+        }, {
+            id: "j",
+            area: 0
+        }, {
+            id: "k",
+            area: 0
+        }, {
+            id: "l",
+            area: 0
+        }, {
+            id: "m",
+            area: 0
+        }, {
+            id: "n",
+            area: 0
+        }, {
+            id: "o",
+            area: 0
+        }, {
+            id: "p",
+            area: 0
+        }, {
+            id: "q",
+            area: 0
+        }, {
+            id: "r",
+            area: 0
+        }, {
+            id: "s",
+            area: 0
+        }, {
+            id: "t",
+            area: 0
+        }, {
+            id: "u",
+            area: 0
+        }, {
+            id: "v",
+            area: 0
+        }, {
+            id: "w",
+            area: 0
+        }, {
+            id: "x",
+            area: 0
+        }, {
+            id: "y",
+            area: 0
+        }], [{
+            id: "a",
+            area: 70
+        }, {
+            id: "b",
+            area: 1
+        }, {
+            id: "c",
+            area: 1
+        }, {
+            id: "d",
+            area: 1
+        }, {
+            id: "e",
+            area: 0
+        }, {
+            id: "f",
+            area: 0
+        }, {
+            id: "g",
+            area: 0
+        }, {
+            id: "h",
+            area: 1
+        }, {
+            id: "i",
+            area: 1
+        }, {
+            id: "j",
+            area: 0
+        }, {
+            id: "k",
+            area: 0
+        }, {
+            id: "l",
+            area: 0
+        }, {
+            id: "m",
+            area: 0
+        }, {
+            id: "n",
+            area: 0
+        }, {
+            id: "o",
+            area: 0
+        }, {
+            id: "p",
+            area: 0
+        }, {
+            id: "q",
+            area: 0
+        }, {
+            id: "r",
+            area: 0
+        }, {
+            id: "s",
+            area: 0
+        }, {
+            id: "t",
+            area: 0
+        }, {
+            id: "u",
+            area: 0
+        }, {
+            id: "v",
+            area: 0
+        }, {
+            id: "w",
+            area: 0
+        }, {
+            id: "x",
+            area: 0
+        }, {
+            id: "y",
+            area: 0
+        }], [{
+            id: "a",
+            area: 4
+        }, {
+            id: "b",
+            area: 1
+        }, {
+            id: "c",
+            area: 1
+        }, {
+            id: "d",
+            area: 0
+        }, {
+            id: "e",
+            area: 0
+        }, {
+            id: "f",
+            area: 0
+        }, {
+            id: "g",
+            area: 0
+        }, {
+            id: "h",
+            area: 0
+        }, {
+            id: "i",
+            area: 0
+        }, {
+            id: "j",
+            area: 0
+        }, {
+            id: "k",
+            area: 0
+        }, {
+            id: "l",
+            area: 0
+        }, {
+            id: "m",
+            area: 0
+        }, {
+            id: "n",
+            area: 0
+        }, {
+            id: "o",
+            area: 0
+        }, {
+            id: "p",
+            area: 0
+        }, {
+            id: "q",
+            area: 0
+        }, {
+            id: "r",
+            area: 0
+        }, {
+            id: "s",
+            area: 0
+        }, {
+            id: "t",
+            area: 0
+        }, {
+            id: "u",
+            area: 0
+        }, {
+            id: "v",
+            area: 0
+        }, {
+            id: "w",
+            area: 0
+        }, {
+            id: "x",
+            area: 0
+        }, {
+            id: "y",
+            area: 0
+        }], [{
+            id: "a",
+            area: 70
+        }, {
+            id: "b",
+            area: 1
+        }, {
+            id: "c",
+            area: 1
+        }, {
+            id: "d",
+            area: 1
+        }, {
+            id: "e",
+            area: 10
+        }, {
+            id: "f",
+            area: 10
+        }, {
+            id: "g",
+            area: 10
+        }, {
+            id: "h",
+            area: 1
+        }, {
+            id: "i",
+            area: 1
+        }, {
+            id: "j",
+            area: 10
+        }, {
+            id: "k",
+            area: 10
+        }, {
+            id: "l",
+            area: 10
+        }, {
+            id: "m",
+            area: 10
+        }, {
+            id: "n",
+            area: 10
+        }, {
+            id: "o",
+            area: 10
+        }, {
+            id: "p",
+            area: 10
+        }, {
+            id: "q",
+            area: 10
+        }, {
+            id: "r",
+            area: 10
+        }, {
+            id: "s",
+            area: 10
+        }, {
+            id: "t",
+            area: 10
+        }, {
+            id: "u",
+            area: 10
+        }, {
+            id: "v",
+            area: 10
+        }, {
+            id: "w",
+            area: 10
+        }, {
+            id: "x",
+            area: 10
+        }, {
+            id: "y",
+            area: 10
+        }]];
         
-
-
+        
+        
         function setUpBubbleChart(){
         
             var total = 0, degrees = 0, radius, newR, radius_multiplier, i;
@@ -158,14 +912,13 @@
                 texts.push(paper.text(bigCX, bigCY, ""));
                 
             }
-			
+            
             for (i = 0; i < data[dataPoint].length; i++) {
-				oldSortedArray.push(data[dataPoint][i].id);	
-			}			
-			
+                oldSortedArray.push(data[dataPoint][i].id);
+            }
         }
-		
-		
+        
+        
         function sortByKey(array, key){
             return array.sort(function(a, b){
                 var x = a[key];
@@ -173,7 +926,7 @@
                 return ((x > y) ? -1 : ((x < y) ? 1 : 0));
             });
         }
-		
+        
         function sortAlphabetical(array, key){
             return array.sort(function(a, b){
                 var x = a[key];
@@ -181,14 +934,14 @@
                 return ((x < y) ? -1 : ((x > y) ? 1 : 0));
             });
         }
-		
-
+        
+        
         
         function upDateBubbleChart(x){
         
             var total = 0, degrees = 0, radius, newR, radius_multiplier, i, number_of_bubbles_to_show = 0, XY;
             
-                        
+            
             centerBubble.attr({
                 "cx": bigCX,
                 "cy": bigCY
@@ -198,17 +951,17 @@
                 "cx": bigCX,
                 "cy": bigCY,
                 "r": bigR
-            },400);
+            }, 400);
             
-			
-			if (dataPoint != x) {
-            	dataPoint = x;
-				sortAlphabetical(data[dataPoint], 'id');
-				sortByKey(data[dataPoint], 'area');
-			}
-			
-
-			
+            
+            if (dataPoint != x) {
+                dataPoint = x;
+                sortAlphabetical(data[dataPoint], 'id');
+                sortByKey(data[dataPoint], 'area');
+            }
+            
+            
+            
             for (i = 0; i < 10; i++) {
             
                 // radius = sqrt(area / PI)
@@ -234,33 +987,34 @@
             
             var arrayIndex;
             for (i = 0; i < data[dataPoint].length; i++) {
-				
-				
-				arrayIndex = getArrayIndex(data[dataPoint][i].id);
-
-				if (i < 10) {
-					radius = Math.sqrt(data[dataPoint][i].area / Math.PI);
-				} else {
-					radius = 0;
-				}
+            
+            
+                arrayIndex = getArrayIndex(data[dataPoint][i].id);
+                
+                if (i < 10) {
+                    radius = Math.sqrt(data[dataPoint][i].area / Math.PI);
+                }
+                else {
+                    radius = 0;
+                }
                 
                 if (radius > 0) {
                 
-					radius_multiplier = (bigR * 2) / total;
-	                if (number_of_bubbles_to_show < 3) {
-	                    radius_multiplier = bigR / total;
-	                }				
-				
-					degrees = degrees + radius;
-					newR = (360 / total) * (degrees - (radius / 2));
-				
+                    radius_multiplier = (bigR * 2) / total;
+                    if (number_of_bubbles_to_show < 3) {
+                        radius_multiplier = bigR / total;
+                    }
+                    
+                    degrees = degrees + radius;
+                    newR = (360 / total) * (degrees - (radius / 2));
+                    
                     XY = calculate_a_point_on_a_circles_circumference(bigR, bigCX, bigCY, newR);
-					
-	                if (number_of_bubbles_to_show == 1) {
-						XY.cy = bigCY;
-						XY.cx = bigCX;
-					}
-					
+                    
+                    if (number_of_bubbles_to_show == 1) {
+                        XY.cy = bigCY;
+                        XY.cx = bigCX;
+                    }
+                    
                     
                     bubbles[arrayIndex].stop().animate({
                         "cx": XY.cx,
@@ -289,28 +1043,34 @@
                         "text": ""
                     });
                 }
-            }			
+            }
             
         }
         
         
         $('span').click(function(){
             upDateBubbleChart($(this).index());
-            $('.selected').removeClass('selected');
+            $('span.selected').removeClass('selected');
             $(this).addClass('selected');
             
         });
         
+        $('div.btn').click(function(){
+            showBiggest = $(this).text().replace(/[^A-Z]+/g, '');
+            upDateBubbleChart(dataPoint);
+            $('div.selected').removeClass('selected');
+            $(this).addClass('selected');
+        });
+		        
         setPaperSizes();
         setUpBubbleChart();
-		
-		// fix animation lag at the start of load up
+        
+        // fix animation lag at the start of load up
         var setUpInterval = setInterval(function(){
-       		upDateBubbleChart(dataPoint);
+            upDateBubbleChart(dataPoint);
             clearInterval(setUpInterval);
         }, 400);
         
-
         function getArrayIndex(tagName){
             var i = null;
             for (i = 0; oldSortedArray.length > i; i++) {
@@ -321,8 +1081,5 @@
             
             return false;
         }
-
-
-	
-	</script>
+    </script>
 </html>
