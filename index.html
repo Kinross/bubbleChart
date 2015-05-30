@@ -270,8 +270,25 @@
                         "r": radius * radius_multiplier
                     }, 400);
                     
-                    texts[arrayIndex].attr("text", data[dataPoint][i].area + ":" + data[dataPoint][i].id);
-                    
+                    texts[arrayIndex].attr("fill-opacity", 0);
+                    texts[arrayIndex].attr("text", data[dataPoint][i].area + "\n" + data[dataPoint][i].id);
+                    if (texts[arrayIndex].getBBox().width < 2 * (radius * radius_multiplier)) {
+                        texts[arrayIndex].attr("fill-opacity", 1);
+                    }
+                    else {
+                        texts[arrayIndex].attr("text", data[dataPoint][i].id);
+                        if (texts[arrayIndex].getBBox().width < 2 * (radius * radius_multiplier)) {
+                            texts[arrayIndex].attr("fill-opacity", 1);
+                        }
+                        else {
+                            texts[arrayIndex].attr("text", data[dataPoint][i].area);
+                            if (texts[arrayIndex].getBBox().width < 2 * (radius * radius_multiplier)) {
+                                texts[arrayIndex].attr("fill-opacity", 1);
+                            }
+                        }
+                    }
+					
+					
                     texts[arrayIndex].stop().animate({
                         "x": XY.cx,
                         "y": XY.cy,
