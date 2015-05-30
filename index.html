@@ -186,7 +186,7 @@
 			sortByKey(data[dataPoint], 'area');
 
 			
-            for (i = 0; i < data[dataPoint].length; i++) {
+            for (i = 0; i < 10; i++) {
             
                 // radius = sqrt(area / PI)
                 total = total + Math.sqrt(data[dataPoint][i].area / Math.PI)
@@ -215,22 +215,22 @@
 				
 				arrayIndex = getArrayIndex(data[dataPoint][i].id);
 
-				console.log(arrayIndex);
-            
-                radius = Math.sqrt(data[dataPoint][i].area / Math.PI);
+				if (i < 10) {
+					radius = Math.sqrt(data[dataPoint][i].area / Math.PI);
+				} else {
+					radius = 0;
+				}
                 
-                degrees = degrees + radius;
+                if (radius > 0) {
                 
-                newR = (360 / total) * (degrees - (radius / 2));
-                
-                radius_multiplier = (bigR * 2) / total;
-                
-                if (number_of_bubbles_to_show < 3) {
-                    radius_multiplier = bigR / total;
-                }
-                
-                if (data[dataPoint][i].area > 0) {
-                
+					radius_multiplier = (bigR * 2) / total;
+	                if (number_of_bubbles_to_show < 3) {
+	                    radius_multiplier = bigR / total;
+	                }				
+				
+					degrees = degrees + radius;
+					newR = (360 / total) * (degrees - (radius / 2));
+				
                     XY = calculate_a_point_on_a_circles_circumference(bigR, bigCX, bigCY, newR);
                     
                     bubbles[arrayIndex].stop().animate({
