@@ -232,6 +232,12 @@
 					newR = (360 / total) * (degrees - (radius / 2));
 				
                     XY = calculate_a_point_on_a_circles_circumference(bigR, bigCX, bigCY, newR);
+					
+	                if (number_of_bubbles_to_show == 1) {
+						XY.cy = bigCY;
+						XY.cx = bigCX;
+					}
+					
                     
                     bubbles[arrayIndex].stop().animate({
                         "cx": XY.cx,
