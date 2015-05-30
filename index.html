@@ -891,7 +891,6 @@
         
             var total = 0, degrees = 0, radius, newR, radius_multiplier, i;
             
-            
             centerBubble = paper.circle(bigCX, bigCY, 0).attr({
                 "fill": "#e8e8e8",
                 "fill-opacity": 0.6,
@@ -936,11 +935,9 @@
         }
         
         
-        
         function upDateBubbleChart(x){
         
-            var total = 0, degrees = 0, radius, newR, radius_multiplier, i, number_of_bubbles_to_show = 0, XY;
-            
+            var total = 0, degrees = 0, radius, newR, radius_multiplier, i, number_of_bubbles_to_show = 0, XY , toggle;
             
             centerBubble.attr({
                 "cx": bigCX,
@@ -959,10 +956,14 @@
                 sortAlphabetical(data[dataPoint], 'id');
                 sortByKey(data[dataPoint], 'area');
             }
-            
-            
-            
-            for (i = 0; i < 10; i++) {
+              
+			toggle = 1;
+			if(showBiggest=='YES'){
+				toggle = 0;
+			}			  
+			  
+			            
+            for (i = toggle; i < 10 + toggle; i++) {
             
                 // radius = sqrt(area / PI)
                 total = total + Math.sqrt(data[dataPoint][i].area / Math.PI)
@@ -986,12 +987,14 @@
             }
             
             var arrayIndex;
+			
+			
             for (i = 0; i < data[dataPoint].length; i++) {
             
             
                 arrayIndex = getArrayIndex(data[dataPoint][i].id);
                 
-                if (i < 10) {
+                if (i < 10 + toggle && i >= 0 + toggle) {
                     radius = Math.sqrt(data[dataPoint][i].area / Math.PI);
                 }
                 else {
@@ -1014,7 +1017,6 @@
                         XY.cy = bigCY;
                         XY.cx = bigCX;
                     }
-                    
                     
                     bubbles[arrayIndex].stop().animate({
                         "cx": XY.cx,
