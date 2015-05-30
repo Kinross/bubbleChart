@@ -79,7 +79,7 @@
         </div>
     </body>
     <script>
-        var paper = Raphael(document.getElementById("g"), 0, 0), centerText, centerBubble, bubbles = [], texts = [];
+        var paper = Raphael(document.getElementById("g"), 0, 0), centerText, centerBubble, bubbles = [], texts = [] , oldSortedArray = [];
         
         
         var bigCX, bigCY, bigR;
@@ -113,19 +113,20 @@
         
         // areas 
         var data = [
-		[{id:"a",area: 0},{id:"b",area:  0},{id:"c",area:  0},{id:"c",area:  0},{id:"d",area:  0},{id:"e",area:  0},{id:"f",area:  0},{id:"g",area:  0},{id:"h",area:  0},{id:"i",area:  0},{id:"j",area:  0},{id:"k",area:  0},{id:"l",area:  0},{id:"m",area:  0},{id:"n",area:  0},{id:"o",area:  0},{id:"p",area:  0},{id:"q",area:  0},{id:"r",area:  0},{id:"s",area:  0},{id:"t",area:  0},{id:"u",area:  0},{id:"v",area:  0},{id:"w",area:  0},{id:"x",area:  0},{id:"y",area:  0}], 
-		[{id:"a",area: 98},{id:"b",area:  1},{id:"c",area:  1},{id:"c",area:  1},{id:"d",area:  1},{id:"e",area:  0},{id:"f",area:  0},{id:"g",area:  0},{id:"h",area:  1},{id:"i",area:  1},{id:"j",area:  0},{id:"k",area:  0},{id:"l",area:  0},{id:"m",area:  0},{id:"n",area:  0},{id:"o",area:  0},{id:"p",area:  0},{id:"q",area:  0},{id:"r",area:  0},{id:"s",area:  0},{id:"t",area:  0},{id:"u",area:  0},{id:"v",area:  0},{id:"w",area:  0},{id:"x",area:  0},{id:"y",area:  0}], 
-		[{id:"a",area: 2},{id:"b",area:  1},{id:"c",area:  0},{id:"c",area:  0},{id:"d",area:  0},{id:"e",area:  0},{id:"f",area:  0},{id:"g",area:  0},{id:"h",area:  0},{id:"i",area:  0},{id:"j",area:  0},{id:"k",area:  0},{id:"l",area:  0},{id:"m",area:  0},{id:"n",area:  0},{id:"o",area:  0},{id:"p",area:  0},{id:"q",area:  0},{id:"r",area:  0},{id:"s",area:  0},{id:"t",area:  0},{id:"u",area:  0},{id:"v",area:  0},{id:"w",area:  0},{id:"x",area:  0},{id:"y",area:  0}], 
-		[{id:"a",area: 2},{id:"b",area:  1},{id:"c",area:  1},{id:"c",area:  1},{id:"d",area:  1},{id:"e",area:  4},{id:"f",area:  1},{id:"g",area:  0.4},{id:"h",area:  1},{id:"i",area:  1},{id:"j",area:  0},{id:"k",area:  0},{id:"l",area:  0},{id:"m",area:  0},{id:"n",area:  0},{id:"o",area:  0},{id:"p",area:  0},{id:"q",area:  0},{id:"r",area:  0},{id:"s",area:  0},{id:"t",area:  0},{id:"u",area:  0},{id:"v",area:  0},{id:"w",area:  0},{id:"x",area:  0},{id:"y",area:  0}], 
-		[{id:"a",area: 6},{id:"b",area:  7},{id:"c",area:  8},{id:"c",area:  4},{id:"d",area:  6},{id:"e",area:  9},{id:"f",area:  3},{id:"g",area:  5},{id:"h",area:  7},{id:"i",area:  9},{id:"j",area:  6},{id:"k",area:  3},{id:"l",area:  4},{id:"m",area:  5},{id:"n",area:  6},{id:"o",area:  5},{id:"p",area:  3},{id:"q",area:  6},{id:"r",area:  8},{id:"s",area:  0},{id:"t",area:  0},{id:"u",area:  0},{id:"v",area:  0},{id:"w",area:  0},{id:"x",area:  0},{id:"y",area:  0}], 
-		[{id:"a",area: 1},{id:"b",area:  0},{id:"c",area:  0},{id:"c",area:  0},{id:"d",area:  0},{id:"e",area:  0},{id:"f",area:  0},{id:"g",area:  0},{id:"h",area:  0},{id:"i",area:  0},{id:"j",area:  0},{id:"k",area:  0},{id:"l",area:  0},{id:"m",area:  0},{id:"n",area:  0},{id:"o",area:  0},{id:"p",area:  0},{id:"q",area:  0},{id:"r",area:  0},{id:"s",area:  0},{id:"t",area:  0},{id:"u",area:  0},{id:"v",area:  0},{id:"w",area:  0},{id:"x",area:  0},{id:"y",area:  0}], 
-		[{id:"a",area: 0},{id:"b",area:  0},{id:"c",area:  0},{id:"c",area:  0},{id:"d",area:  0},{id:"e",area:  0},{id:"f",area:  0},{id:"g",area:  0},{id:"h",area:  0},{id:"i",area:  0},{id:"j",area:  0},{id:"k",area:  0},{id:"l",area:  0},{id:"m",area:  0},{id:"n",area:  0},{id:"o",area:  0},{id:"p",area:  0},{id:"q",area:  0},{id:"r",area:  0},{id:"s",area:  0},{id:"t",area:  0},{id:"u",area:  0},{id:"v",area:  0},{id:"w",area:  0},{id:"x",area:  0},{id:"y",area:  0}], 
-		[{id:"a",area: 70},{id:"b",area:  1},{id:"c",area:  1},{id:"c",area:  1},{id:"d",area:  1},{id:"e",area:  0},{id:"f",area:  0},{id:"g",area:  0},{id:"h",area:  1},{id:"i",area:  1},{id:"j",area:  0},{id:"k",area:  0},{id:"l",area:  0},{id:"m",area:  0},{id:"n",area:  0},{id:"o",area:  0},{id:"p",area:  0},{id:"q",area:  0},{id:"r",area:  0},{id:"s",area:  0},{id:"t",area:  0},{id:"u",area:  0},{id:"v",area:  0},{id:"w",area:  0},{id:"x",area:  0},{id:"y",area:  0}], 
-		[{id:"a",area: 4},{id:"b",area:  1},{id:"c",area:  1},{id:"c",area:  0},{id:"d",area:  0},{id:"e",area:  0},{id:"f",area:  0},{id:"g",area:  0},{id:"h",area:  0},{id:"i",area:  0},{id:"j",area:  0},{id:"k",area:  0},{id:"l",area:  0},{id:"m",area:  0},{id:"n",area:  0},{id:"o",area:  0},{id:"p",area:  0},{id:"q",area:  0},{id:"r",area:  0},{id:"s",area:  0},{id:"t",area:  0},{id:"u",area:  0},{id:"v",area:  0},{id:"w",area:  0},{id:"x",area:  0},{id:"y",area:  0}],
-		[{id:"a",area: 70},{id:"b",area:  1},{id:"c",area:  1},{id:"c",area:  1},{id:"d",area:  1},{id:"e",area:  10},{id:"f",area:  10},{id:"g",area:  10},{id:"h",area:  1},{id:"i",area:  1},{id:"j",area:  10},{id:"k",area:  10},{id:"l",area:  10},{id:"m",area:  10},{id:"n",area:  10},{id:"o",area:  10},{id:"p",area:  10},{id:"q",area:  10},{id:"r",area:  10},{id:"s",area:  10},{id:"t",area:  10},{id:"u",area:  10},{id:"v",area:  10},{id:"w",area:  10},{id:"x",area:  10},{id:"y",area:  10}] 
+		[{id:"a",area: 0},{id:"b",area:  0},{id:"c",area:  0},{id:"d",area:  0},{id:"e",area:  0},{id:"f",area:  0},{id:"g",area:  0},{id:"h",area:  0},{id:"i",area:  0},{id:"j",area:  0},{id:"k",area:  0},{id:"l",area:  0},{id:"m",area:  0},{id:"n",area:  0},{id:"o",area:  0},{id:"p",area:  0},{id:"q",area:  0},{id:"r",area:  0},{id:"s",area:  0},{id:"t",area:  0},{id:"u",area:  0},{id:"v",area:  0},{id:"w",area:  0},{id:"x",area:  0},{id:"y",area:  0}], 
+		[{id:"a",area: 98},{id:"b",area:  10},{id:"c",area:  1},{id:"d",area:  1},{id:"e",area:  0},{id:"f",area:  0},{id:"g",area:  0},{id:"h",area:  1},{id:"i",area:  1},{id:"j",area:  0},{id:"k",area:  0},{id:"l",area:  0},{id:"m",area:  0},{id:"n",area:  0},{id:"o",area:  0},{id:"p",area:  0},{id:"q",area:  0},{id:"r",area:  0},{id:"s",area:  0},{id:"t",area:  0},{id:"u",area:  0},{id:"v",area:  0},{id:"w",area:  0},{id:"x",area:  0},{id:"y",area:  0}], 
+		[{id:"a",area: 2},{id:"b",area:  8},{id:"c",area:  50},{id:"d",area:  0},{id:"e",area:  0},{id:"f",area:  0},{id:"g",area:  0},{id:"h",area:  0},{id:"i",area:  0},{id:"j",area:  0},{id:"k",area:  0},{id:"l",area:  0},{id:"m",area:  0},{id:"n",area:  0},{id:"o",area:  0},{id:"p",area:  0},{id:"q",area:  0},{id:"r",area:  0},{id:"s",area:  0},{id:"t",area:  0},{id:"u",area:  0},{id:"v",area:  0},{id:"w",area:  0},{id:"x",area:  0},{id:"y",area:  0}], 
+		[{id:"a",area: 2},{id:"b",area:  1},{id:"c",area:  1},{id:"d",area:  1},{id:"e",area:  4},{id:"f",area:  1},{id:"g",area:  0.4},{id:"h",area:  1},{id:"i",area:  1},{id:"j",area:  0},{id:"k",area:  0},{id:"l",area:  0},{id:"m",area:  0},{id:"n",area:  0},{id:"o",area:  0},{id:"p",area:  0},{id:"q",area:  0},{id:"r",area:  0},{id:"s",area:  0},{id:"t",area:  0},{id:"u",area:  0},{id:"v",area:  0},{id:"w",area:  0},{id:"x",area:  0},{id:"y",area:  0}], 
+		[{id:"a",area: 6},{id:"b",area:  7},{id:"c",area:  8},{id:"d",area:  6},{id:"e",area:  9},{id:"f",area:  3},{id:"g",area:  5},{id:"h",area:  7},{id:"i",area:  9},{id:"j",area:  6},{id:"k",area:  3},{id:"l",area:  4},{id:"m",area:  5},{id:"n",area:  6},{id:"o",area:  5},{id:"p",area:  3},{id:"q",area:  6},{id:"r",area:  8},{id:"s",area:  0},{id:"t",area:  0},{id:"u",area:  0},{id:"v",area:  0},{id:"w",area:  0},{id:"x",area:  0},{id:"y",area:  0}], 
+		[{id:"a",area: 1},{id:"b",area:  0},{id:"c",area:  0},{id:"d",area:  0},{id:"e",area:  0},{id:"f",area:  0},{id:"g",area:  0},{id:"h",area:  0},{id:"i",area:  0},{id:"j",area:  0},{id:"k",area:  0},{id:"l",area:  0},{id:"m",area:  0},{id:"n",area:  0},{id:"o",area:  0},{id:"p",area:  0},{id:"q",area:  0},{id:"r",area:  0},{id:"s",area:  0},{id:"t",area:  0},{id:"u",area:  0},{id:"v",area:  0},{id:"w",area:  0},{id:"x",area:  0},{id:"y",area:  0}], 
+		[{id:"a",area: 0},{id:"b",area:  0},{id:"c",area:  0},{id:"d",area:  0},{id:"e",area:  0},{id:"f",area:  0},{id:"g",area:  0},{id:"h",area:  0},{id:"i",area:  0},{id:"j",area:  0},{id:"k",area:  0},{id:"l",area:  0},{id:"m",area:  0},{id:"n",area:  0},{id:"o",area:  0},{id:"p",area:  0},{id:"q",area:  0},{id:"r",area:  0},{id:"s",area:  0},{id:"t",area:  0},{id:"u",area:  0},{id:"v",area:  0},{id:"w",area:  0},{id:"x",area:  0},{id:"y",area:  0}], 
+		[{id:"a",area: 70},{id:"b",area:  1},{id:"c",area:  1},{id:"d",area:  1},{id:"e",area:  0},{id:"f",area:  0},{id:"g",area:  0},{id:"h",area:  1},{id:"i",area:  1},{id:"j",area:  0},{id:"k",area:  0},{id:"l",area:  0},{id:"m",area:  0},{id:"n",area:  0},{id:"o",area:  0},{id:"p",area:  0},{id:"q",area:  0},{id:"r",area:  0},{id:"s",area:  0},{id:"t",area:  0},{id:"u",area:  0},{id:"v",area:  0},{id:"w",area:  0},{id:"x",area:  0},{id:"y",area:  0}], 
+		[{id:"a",area: 4},{id:"b",area:  1},{id:"c",area:  1},{id:"d",area:  0},{id:"e",area:  0},{id:"f",area:  0},{id:"g",area:  0},{id:"h",area:  0},{id:"i",area:  0},{id:"j",area:  0},{id:"k",area:  0},{id:"l",area:  0},{id:"m",area:  0},{id:"n",area:  0},{id:"o",area:  0},{id:"p",area:  0},{id:"q",area:  0},{id:"r",area:  0},{id:"s",area:  0},{id:"t",area:  0},{id:"u",area:  0},{id:"v",area:  0},{id:"w",area:  0},{id:"x",area:  0},{id:"y",area:  0}],
+		[{id:"a",area: 70},{id:"b",area:  1},{id:"c",area:  1},{id:"d",area:  1},{id:"e",area:  10},{id:"f",area:  10},{id:"g",area:  10},{id:"h",area:  1},{id:"i",area:  1},{id:"j",area:  10},{id:"k",area:  10},{id:"l",area:  10},{id:"m",area:  10},{id:"n",area:  10},{id:"o",area:  10},{id:"p",area:  10},{id:"q",area:  10},{id:"r",area:  10},{id:"s",area:  10},{id:"t",area:  10},{id:"u",area:  10},{id:"v",area:  10},{id:"w",area:  10},{id:"x",area:  10},{id:"y",area:  10}] 
 		];
         
-        
+
+
         function setUpBubbleChart(){
         
             var total = 0, degrees = 0, radius, newR, radius_multiplier, i;
@@ -147,6 +148,11 @@
                 texts.push(paper.text(bigCX, bigCY, ""));
                 
             }
+			
+            for (i = 0; i < data[dataPoint].length; i++) {
+				oldSortedArray.push(data[dataPoint][i].id);	
+			}			
+			
         }
 		
 		
@@ -161,7 +167,7 @@
         
         function upDateBubbleChart(x){
         
-            var total = 0, degrees = 0, radius, newR, radius_multiplier, i, number_of_bubbles_to_show = 0, XY, newArray;
+            var total = 0, degrees = 0, radius, newR, radius_multiplier, i, number_of_bubbles_to_show = 0, XY;
             
             dataPoint = x;
             
@@ -179,9 +185,10 @@
             },400);
             
             
-            newArray = sortByKey(data[dataPoint], 'area');
 
-			data[dataPoint] = newArray;
+			
+			sortByKey(data[dataPoint], 'area');
+
 			
             for (i = 0; i < data[dataPoint].length; i++) {
             
@@ -206,8 +213,13 @@
                 centerText.attr("text", "");
             }
             
-            
+            var arrayIndex;
             for (i = 0; i < data[dataPoint].length; i++) {
+				
+				
+				arrayIndex = getArrayIndex(oldSortedArray[i]);
+
+				console.log(arrayIndex);
             
                 radius = Math.sqrt(data[dataPoint][i].area / Math.PI);
                 
@@ -225,15 +237,15 @@
                 
                     XY = calculate_a_point_on_a_circles_circumference(bigR, bigCX, bigCY, newR);
                     
-                    bubbles[i].stop().animate({
+                    bubbles[arrayIndex].stop().animate({
                         "cx": XY.cx,
                         "cy": XY.cy,
                         "r": radius * radius_multiplier
                     }, 400);
                     
-                    texts[i].attr("text", data[dataPoint][i].area + ":" + data[dataPoint][i].id);
+                    texts[arrayIndex].attr("text", data[dataPoint][i].area + ":" + data[dataPoint][i].id);
                     
-                    texts[i].stop().animate({
+                    texts[arrayIndex].stop().animate({
                         "x": XY.cx,
                         "y": XY.cy,
                     }, 400);
@@ -241,18 +253,18 @@
                 else {
                     XY = calculate_a_point_on_a_circles_circumference(bigR, bigCX, bigCY, 0);
                     
-                    bubbles[i].stop().animate({
+                    bubbles[arrayIndex].stop().animate({
                         "cx": bigCX,
                         "cy": bigCY,
                         "r": 0
                     }, 400);
-                    texts[i].stop().attr({
+                    texts[arrayIndex].stop().attr({
                         "x": bigCX,
                         "y": bigCY,
                         "text": ""
                     });
                 }
-            }
+            }			
             
         }
         
@@ -273,6 +285,18 @@
             clearInterval(setUpInterval);
         }, 400);
         
+
+        function getArrayIndex(tagName){
+            var i = null;
+            for (i = 0; data[dataPoint].length > i; i++) {
+                if (data[dataPoint][i].id === tagName) {
+                    return i;
+                }
+            }
+            
+            return false;
+        }
+
 
 	
 	</script>
