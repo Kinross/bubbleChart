@@ -168,9 +168,11 @@
 		
         function clicks(test, i){
             test.mouseover(function(){
+				test.attr("fill-opacity", 0.6);
                 setHover(i);
             }).mouseout(function(){
                 removeHover();
+				test.attr("fill-opacity", 0.4);
             });
         }
 						
