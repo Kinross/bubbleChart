@@ -83,15 +83,14 @@
         <div class='year'>
             Select a year:
         </div>
-        <span class='selected'>2005 </span>
+        <span class='selected'>2004 </span>
+        <span>2005 </span>
         <span>2006 </span>
         <span>2007 </span>
         <span>2008 </span>
         <span>2009 </span>
         <span>2010 </span>
         <span>2011 </span>
-        <span>2012 </span>
-        <span>2013 </span>
         <div class='biggest'>
             Show biggest:
         </div>
@@ -106,7 +105,7 @@
     </body>
     <script>
         
-        var paper = Raphael(document.getElementById("g"), 0, 0), centerText, centerBubble, bubbles = [], texts = [], oldSortedArray = [];
+        var paper = Raphael(document.getElementById("g"), 0, 0), centerText, centerBubble, bubbles = [], texts = [], oldSortedArray = [] , hoverSortedArray =[];
         
         var colours = ['#ee2626', '#fcc23b', '#457df5', '#00a45e'];
         
@@ -131,7 +130,10 @@
 			
 			var mousePadding = 10;
         
-            $hover.html( data[dataPoint][i].id + " : " + (data[dataPoint][i].area) );
+
+			// bug number not hooked up yet!
+            $hover.html( getHoverIndex(i) + " : " + (data[dataPoint][i].area) );
+			
             
             intervals['hover'] = setInterval(function(){
             
@@ -240,6 +242,7 @@
             
             for (i = 0; i < data[dataPoint].length; i++) {
                 oldSortedArray.push(data[dataPoint][i].id);
+                hoverSortedArray.push(data[dataPoint][i].id);
             }
         }
 		
@@ -320,7 +323,7 @@
             for (i = 0; i < data[dataPoint].length; i++) {
             
             
-                arrayIndex = getArrayIndex(data[dataPoint][i].id);
+                arrayIndex = getArrayIndex(data[dataPoint][i].id); 
                 
                 if (i < 10 + toggle && i >= 0 + toggle) {
                     radius = Math.sqrt(data[dataPoint][i].area / Math.PI);
@@ -424,7 +427,18 @@
                 }
             }
             return false;
-        }
+        } 
+		
+        function getHoverIndex(tagPoint){
+            var i = null;
+            for (i = 0; hoverSortedArray.length > i; i++) {
+                if (i === tagPoint) {
+                    return hoverSortedArray[i];
+                }
+            }
+            return false;
+        }		
+		
 
     </script>
 </html>
